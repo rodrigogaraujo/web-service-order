@@ -1,5 +1,5 @@
-# Service order control (under development)
-Application for service order control 
+# Service order control - admin page (under development)
+Application for service order control
 Using tools like react-native-testing-library, react-query, reanimated and others
 
 # Libraries & Features
@@ -10,5 +10,5 @@ Using tools like react-native-testing-library, react-query, reanimated and other
 - React query
 - React Rook Form
 - Yup
-- Material UI 
-- React Router Dom 
+- Material UI
+- React Router Dom
