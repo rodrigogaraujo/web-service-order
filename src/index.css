@@ -8,6 +8,7 @@ body {
   margin: 0;
   outline: none;
   overflow-x: hidden;
+  border: none;
 }
 
 #root {

@@ -4,6 +4,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import '../src/assets/fonts/FontFace.css'
 import '../src/index.css'
 import { BrowserRouter } from 'react-router-dom'
+import { QueryClient, QueryClientProvider } from 'react-query'
 
 import { ginfotechTheme } from '../src/theme'
 import { themeStyled } from '../src/theme/styledTheme'
@@ -12,22 +13,25 @@ import { AppProvider } from '../src/hooks'
 export const decorators = [
   (Story) => {
     const methods = useForm();
+    const queryClient = new QueryClient()
 
     return (
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={ginfotechTheme}>
-          <ThemeStyledProvider theme={themeStyled}>
-            <AppProvider>
-              <BrowserRouter>
-                <FormProvider {...methods} >
-                  <CssBaseline />
-                  <Story />
-                </FormProvider>
-              </BrowserRouter>
-            </AppProvider>
-          </ThemeStyledProvider>
-        </ThemeProvider>
-      </StyledEngineProvider>
+      <QueryClientProvider client={queryClient}>
+        <AppProvider>
+          <StyledEngineProvider injectFirst>
+            <ThemeProvider theme={ginfotechTheme}>
+              <ThemeStyledProvider theme={themeStyled}>
+                  <BrowserRouter>
+                    <FormProvider {...methods} >
+                      <CssBaseline />
+                      <Story />
+                    </FormProvider>
+                  </BrowserRouter>
+              </ThemeStyledProvider>
+            </ThemeProvider>
+          </StyledEngineProvider>
+        </AppProvider>
+      </QueryClientProvider>
     )
   },
 ]
