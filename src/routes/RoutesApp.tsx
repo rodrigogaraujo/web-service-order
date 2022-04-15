@@ -8,6 +8,8 @@ import { Login } from '~/pages/auth/Login'
 import { PrivateRoute } from './PrivateRoute'
 import { PublicLayout } from '~/components/Layouts/PublicLayout'
 import { useAuth } from '~/hooks/Auth'
+import { Users } from '~/pages/Users'
+import { UserForm } from '~/pages/Users/UserForm'
 
 export const RoutesApp: React.FC = () => {
   const { user, token } = useAuth()
@@ -25,6 +27,21 @@ export const RoutesApp: React.FC = () => {
         <Route path='/dashboard' element={(
           <PublicLayout>
             <Dashboard />
+          </PublicLayout>
+        )} />
+        <Route path='/dashboard/users' element={(
+          <PublicLayout>
+            <Users />
+          </PublicLayout>
+        )} />
+        <Route path='/dashboard/user-new' element={(
+          <PublicLayout>
+            <UserForm />
+          </PublicLayout>
+        )} />
+        <Route path='/dashboard/user-edit/:id' element={(
+          <PublicLayout>
+            <UserForm />
           </PublicLayout>
         )} />
       </Route>

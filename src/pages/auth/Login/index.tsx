@@ -1,4 +1,4 @@
-
+import React, { useEffect, useState } from 'react'
 import { Button, Typography } from '@mui/material'
 import { toast } from 'react-toastify'
 import { useForm, Controller } from 'react-hook-form'
@@ -8,7 +8,6 @@ import * as yup from 'yup'
 import TextInput from '~/components/HookForm/TextField'
 import { BottomButtonWrapper, Form, Link, TitleWrapper } from '../styles'
 import { ICredentials, useAuth } from '~/hooks/Auth'
-import { useEffect, useState } from 'react'
 import { useLogin } from '~/services/useLogin'
 import { Navigate } from 'react-router-dom'
 
@@ -46,7 +45,7 @@ export const Login: React.FC = () => {
 
   const login = useLogin({
     onSuccess: async ({ user, token }) => {
-      if (user.active) {
+      if (user.active && user.type === 1) {
         await signIn(token.token, user)
       } else {
         toast.error('Usuário inativo, fale com seu administrador.')

@@ -40,7 +40,7 @@ export const DrawerMenu = ({ handleDrawer, visibleDrawer, drawerWidth }: IDrawer
       }, {
         id: 2,
         name: 'Usuários',
-        link: '/dashboard/tables',
+        link: '/dashboard/users',
         icon: pencilRed,
         iconSelected: pencilWhite,
         disabled: false
