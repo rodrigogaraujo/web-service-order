@@ -8,11 +8,11 @@ import { DeleteOutline, EditOutlined } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
 
 import { WrapperTable, WrapperButtonsAction, WrapperHeader } from './styles'
-import { useGetUsers } from '~/services/useUser'
 import { toast } from 'react-toastify'
-import { IUser } from '~/hooks/Auth'
+import { useGetCustomers } from '~/services/useCustomer'
+import { ICustomer } from '~/types'
 
-export const Users: React.FC = () => {
+export const Customers: React.FC = () => {
   const navigate = useNavigate()
   const theme = useTheme()
 
@@ -26,20 +26,25 @@ export const Users: React.FC = () => {
     { field: 'name', headerName: 'Nome', width: 350 },
     { field: 'email', headerName: 'email', width: 300 },
     {
-      field: 'phone',
+      field: 'phone_number',
       headerName: 'Telefone',
-      width: 300,
+      width: 250,
+    },
+    {
+      field: 'document',
+      headerName: 'CPF',
+      width: 250,
     },
     {
       field: 'actions',
       headerName: 'Ações',
-      width: 150,
+      width: 100,
       sortable: false,
       filterable: false,
       renderCell: (params: any) => (
         <WrapperButtonsAction>
           <IconButton>
-            <EditOutlined onClick={() => navigate(`/dashboard/user-edit/${params.row._id}`)}/>
+            <EditOutlined onClick={() => navigate(`/dashboard/customer-edit/${params.row._id}`)}/>
           </IconButton>
           <IconButton>
             <DeleteOutline />
@@ -49,7 +54,7 @@ export const Users: React.FC = () => {
     },
   ]
 
-  const { isLoading, data, isError, error } = useGetUsers()
+  const { isLoading, data, isError, error } = useGetCustomers()
 
   if (isError) {
     toast.error(`Ouve um erro, ${error &&
@@ -73,12 +78,12 @@ export const Users: React.FC = () => {
       textAlign='center'>
       <WrapperHeader>
         <Typography variant='h5'>
-        Lista de usuários
+        Lista de clientes
         </Typography>
         <Button
           className='auth-button'
           variant='contained'
-          onClick={() =>  navigate(`/dashboard/user-new`)}
+          onClick={() =>  navigate(`/dashboard/customer-new`)}
           sx={{ minWidth: 150, maxHeight: 40 }}
         >
           Novo
@@ -90,7 +95,7 @@ export const Users: React.FC = () => {
         ) : (
           <ThemeProvider theme={themeWithLocale}>
             <DataGrid
-              rows={data as IUser[]}
+              rows={data as ICustomer[]}
               columns={columns}
               pageSize={10}
               rowsPerPageOptions={[10]}

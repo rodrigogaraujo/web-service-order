@@ -47,7 +47,7 @@ export const DrawerMenu = ({ handleDrawer, visibleDrawer, drawerWidth }: IDrawer
       }, {
         id: 3,
         name: 'Clientes',
-        link: '/dashboard/menu',
+        link: '/dashboard/customers',
         icon: clipboardRed,
         iconSelected: clipboardWhite,
         disabled: false
