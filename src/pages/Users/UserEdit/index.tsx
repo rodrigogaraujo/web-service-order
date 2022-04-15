@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom'
 
 import { Form } from '../UserForm/Form'
 import { useGetUser } from '~/services/useUser'
-import { IUser } from '~/types'
 import { toast } from 'react-toastify'
 
 type IProps = {
@@ -39,7 +38,7 @@ export const UserEdit: React.FC = () => {
       textAlign='center'>
       {isLoading ? (
         <CircularProgress />
-      ) : <Form user={data as IUser} /> }
+      ) : <Form user={data} /> }
     </Grid>
   )
 }

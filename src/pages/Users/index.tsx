@@ -23,12 +23,12 @@ export const Users: React.FC = () => {
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
-    { field: 'name', headerName: 'Nome', width: 300 },
+    { field: 'name', headerName: 'Nome', width: 350 },
     { field: 'email', headerName: 'email', width: 300 },
     {
       field: 'phone',
       headerName: 'Telefone',
-      width: 150,
+      width: 300,
     },
     {
       field: 'actions',
@@ -36,10 +36,10 @@ export const Users: React.FC = () => {
       width: 150,
       sortable: false,
       filterable: false,
-      renderCell: () => (
+      renderCell: (params: any) => (
         <WrapperButtonsAction>
           <IconButton>
-            <EditOutlined />
+            <EditOutlined onClick={() => navigate(`/dashboard/user-edit/${params.row._id}`)}/>
           </IconButton>
           <IconButton>
             <DeleteOutline />

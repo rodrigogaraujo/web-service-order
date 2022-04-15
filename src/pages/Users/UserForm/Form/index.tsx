@@ -5,13 +5,16 @@ import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import InputMask from 'react-input-mask'
+import { useNavigate } from 'react-router-dom'
 
 import TextInput from '~/components/HookForm/TextField'
 import { IUser } from '~/hooks/Auth'
+import { usePostUser, useUpdateUser } from '~/services/useUser'
 interface IProps {
   user?: IUser
 }
 export const Form = ({ user }: IProps) => {
+  const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
 
   const schema = yup.object().shape({
@@ -25,6 +28,7 @@ export const Form = ({ user }: IProps) => {
     control,
     handleSubmit,
     formState: { errors },
+    setValue
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -33,26 +37,81 @@ export const Form = ({ user }: IProps) => {
       type: user ? user.type : 3,
       phone: user ? user.phone : '',
       active: user ? user.active : 1,
-      password: ''
+      password: '',
     },
   })
 
   const onSubmit = async (data: IUser) => {
     try {
       setLoading(true)
-      const { email, password } = data
-      console.log(email, password)
+      if (user) {
+        updateUser.mutate({ ...data, _id: user._id })
+      } else {
+        createUser.mutate(data)
+      }
       setLoading(false)
     } catch (er) {
       setLoading(false)
     }
   }
 
+  const createUser = usePostUser({
+    onSuccess: async (data) => {
+      toast.success('Usuário criado com sucesso.')
+      navigate(`/dashboard/user-edit/${data._id}`)
+    },
+    onError: (er) => {
+      toast.error(
+        er &&
+          er.response &&
+          er.response.data &&
+          er.response.data.error &&
+          er.response.data.error.message
+          ? er.response.data.error.message
+          : 'Houve um erro, tente novamente mais tarde.')
+    },
+  })
+
+  const updateUser = useUpdateUser({
+    onSuccess: async () => {
+      toast.success('Usuário atualizado com sucesso.')
+    },
+    onError: (er) => {
+      toast.error(
+        er &&
+          er.response &&
+          er.response.data &&
+          er.response.data.error &&
+          er.response.data.error.message
+          ? er.response.data.error.message
+          : 'Houve um erro, tente novamente mais tarde.')
+    },
+  })
+
   useEffect(() => {
     if (errors && errors.email && errors.email.message) {
       toast.error(errors.email.message)
     }
+    if (errors && errors.name && errors.name.message) {
+      toast.error(errors.name.message)
+    }
+    if (errors && errors.phone && errors.phone.message) {
+      toast.error(errors.phone.message)
+    }
+    if (errors && errors.type && errors.type.message) {
+      toast.error(errors.type.message)
+    }
   }, [errors])
+
+  useEffect(() => {
+    if (user && user._id) {
+      setValue('active', user.active)
+      setValue('type', user.type)
+      setValue('name', user.name)
+      setValue('email', user.email)
+      setValue('phone', user.phone)
+    }
+  }, [setValue, user])
 
   return (
     <Grid
@@ -123,7 +182,7 @@ export const Form = ({ user }: IProps) => {
                 className='auth-input'
                 onChange={onChange}
                 onBlur={onBlur}
-                value={value.toLowerCase().trim()}
+                value={value ? value.toLowerCase().trim() : ''}
               />
             )}
           />
