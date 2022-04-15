@@ -10,6 +10,7 @@ import { PublicLayout } from '~/components/Layouts/PublicLayout'
 import { useAuth } from '~/hooks/Auth'
 import { Users } from '~/pages/Users'
 import { UserForm } from '~/pages/Users/UserForm'
+import { UserEdit } from '~/pages/Users/UserEdit'
 
 export const RoutesApp: React.FC = () => {
   const { user, token } = useAuth()
@@ -39,11 +40,18 @@ export const RoutesApp: React.FC = () => {
             <UserForm />
           </PublicLayout>
         )} />
-        <Route path='/dashboard/user-edit/:id' element={(
-          <PublicLayout>
-            <UserForm />
-          </PublicLayout>
-        )} />
+        <Route path='/dashboard/user-edit' >
+          <Route index element={(
+            <PublicLayout>
+              <UserEdit />
+            </PublicLayout>
+          )} />
+          <Route path=':id' element={(
+            <PublicLayout>
+              <UserEdit />
+            </PublicLayout>
+          )} />
+        </Route>
       </Route>
       <Route path='*' element={<NotFound />} />
     </Routes>

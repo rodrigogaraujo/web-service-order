@@ -9,7 +9,7 @@ import InputMask from 'react-input-mask'
 import TextInput from '~/components/HookForm/TextField'
 import { IUser } from '~/hooks/Auth'
 interface IProps {
-  user: IUser
+  user?: IUser
 }
 export const Form = ({ user }: IProps) => {
   const [loading, setLoading] = useState(false)
@@ -28,11 +28,11 @@ export const Form = ({ user }: IProps) => {
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      name: user.name || '',
-      email: user.email || '',
-      type: user.type || 3,
-      phone: user.phone || '',
-      active: user.active || 1,
+      name: user ? user.name : '',
+      email: user ? user.email : '',
+      type: user ? user.type : 3,
+      phone: user ? user.phone : '',
+      active: user ? user.active : 1,
       password: ''
     },
   })

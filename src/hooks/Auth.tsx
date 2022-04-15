@@ -1,4 +1,5 @@
 import { createContext, useState, useContext } from 'react'
+import { api } from '~/services/api'
 
 interface IAuthProvider {
   children: React.ReactNode
@@ -47,6 +48,7 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
     const user = localStorage.getItem('@ginfotech:user')
     const token = localStorage.getItem('@ginfotech:token')
     if (user && token) {
+      api.defaults.headers.common['Authorization'] = `Bearer ${token}`
       return { user: JSON.parse(user), token }
     }
     return {}
@@ -63,6 +65,7 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 
     localStorage.setItem('@ginfotech:user', JSON.stringify(user))
     localStorage.setItem('@ginfotech:token', token)
+    api.defaults.headers.common['Authorization'] = `Bearer ${token}`
     setData({ user, token })
     setLoading(false)
   }

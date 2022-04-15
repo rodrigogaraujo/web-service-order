@@ -1,15 +1,19 @@
 import React, { useMemo } from 'react'
-import { Grid, Typography } from '@mui/material'
+import { Button, CircularProgress, Grid, Typography } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 import { createTheme, ThemeProvider, useTheme } from '@mui/material/styles'
 import { IconButton } from '@mui/material'
 import * as locales from '@mui/material/locale'
 import { DeleteOutline, EditOutlined } from '@mui/icons-material'
+import { useNavigate } from 'react-router-dom'
 
-import { WrapperTable, WrapperButtonsAction } from './styles'
+import { WrapperTable, WrapperButtonsAction, WrapperHeader } from './styles'
+import { useGetUsers } from '~/services/useUser'
+import { toast } from 'react-toastify'
+import { IUser } from '~/hooks/Auth'
 
 export const Users: React.FC = () => {
-
+  const navigate = useNavigate()
   const theme = useTheme()
 
   const themeWithLocale = useMemo(
@@ -45,17 +49,17 @@ export const Users: React.FC = () => {
     },
   ]
 
-  const rows = [
-    { id: 1, name: 'Snow', email: 'Jon', phone: '35' },
-    { id: 2, name: 'Lannister', email: 'Cersei', phone: '42' },
-    { id: 3, name: 'Lannister', email: 'Jaime', phone: '45' },
-    { id: 4, name: 'Stark', email: 'Arya', phone: '16' },
-    { id: 5, name: 'Targaryen', email: 'Daenerys', phone: '44' },
-    { id: 6, name: 'Melisandre', email: 'Daenerys', phone: '150' },
-    { id: 7, name: 'Clifford', email: 'Ferrara', phone: '44' },
-    { id: 8, name: 'Frances', email: 'Rossini', phone: '36' },
-    { id: 9, name: 'Roxie', email: 'Harvey', phone: '65' },
-  ]
+  const { isLoading, data, isError, error } = useGetUsers()
+
+  if (isError) {
+    toast.error(`Ouve um erro, ${error &&
+      error.response &&
+      error.response.data &&
+      error.response.data.error &&
+      error.response.data.error.message
+      ? error.response.data.error.message
+      : 'tente novamente mais tarde.'}`)
+  }
 
   return (
     <Grid
@@ -67,18 +71,33 @@ export const Users: React.FC = () => {
       height='100%'
       width='100%'
       textAlign='center'>
-      <Typography>
-        Usuários
-      </Typography>
+      <WrapperHeader>
+        <Typography variant='h5'>
+        Lista de usuários
+        </Typography>
+        <Button
+          className='auth-button'
+          variant='contained'
+          onClick={() =>  navigate(`/dashboard/user-new`)}
+          sx={{ minWidth: 150, maxHeight: 40 }}
+        >
+          Novo
+        </Button>
+      </WrapperHeader>
       <WrapperTable>
-        <ThemeProvider theme={themeWithLocale}>
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={10}
-            rowsPerPageOptions={[10]}
-          />
-        </ThemeProvider>
+        {isLoading ? (
+          <CircularProgress />
+        ) : (
+          <ThemeProvider theme={themeWithLocale}>
+            <DataGrid
+              rows={data as IUser[]}
+              columns={columns}
+              pageSize={10}
+              rowsPerPageOptions={[10]}
+              sx={{ minHeight: '72vh' }}
+            />
+          </ThemeProvider>
+        ) }
       </WrapperTable>
     </Grid>
   )
