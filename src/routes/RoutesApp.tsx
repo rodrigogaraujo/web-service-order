@@ -14,6 +14,9 @@ import { UserEdit } from '~/pages/Users/UserEdit'
 import { Customers } from '~/pages/Customers'
 import { CustomerForm } from '~/pages/Customers/CustomerForm'
 import { CustomerEdit } from '~/pages/Customers/CustomerEdit'
+import { ServiceOrder } from '~/pages/ServiceOrder'
+import { ServiceOrderForm } from '~/pages/ServiceOrder/ServiceOrderForm'
+import { ServiceOrderEdit } from '~/pages/ServiceOrder/ServiceOrderEdit'
 
 export const RoutesApp: React.FC = () => {
   const { user, token } = useAuth()
@@ -75,6 +78,28 @@ export const RoutesApp: React.FC = () => {
           <Route path=':id' element={(
             <PublicLayout>
               <CustomerEdit />
+            </PublicLayout>
+          )} />
+        </Route>
+        <Route path='/dashboard/service-order' element={(
+          <PublicLayout>
+            <ServiceOrder />
+          </PublicLayout>
+        )} />
+        <Route path='/dashboard/service-order-new' element={(
+          <PublicLayout>
+            <ServiceOrderForm />
+          </PublicLayout>
+        )} />
+        <Route path='/dashboard/service-order-edit' >
+          <Route index element={(
+            <PublicLayout>
+              <ServiceOrderEdit />
+            </PublicLayout>
+          )} />
+          <Route path=':id' element={(
+            <PublicLayout>
+              <ServiceOrderEdit />
             </PublicLayout>
           )} />
         </Route>

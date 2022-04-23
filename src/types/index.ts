@@ -29,3 +29,15 @@ export interface ICustomer {
     zipcode?: string
   }
 }
+
+export interface IServiceOrder {
+  customer_id?: string,
+  description: string,
+  customer?: ICustomer,
+  user?: IUser,
+  user_id?: string,
+  id?: number,
+  _id?: string,
+  priority: number,
+  status: number
+}
