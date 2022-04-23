@@ -18,5 +18,14 @@ export interface ICustomer {
   active: number,
   password: string,
   id?: number,
-  _id?: string
+  _id?: string,
+  address?: {
+    city?: string,
+    complement?: string,
+    neighborhood?: string,
+    number?: string,
+    state?: string,
+    street?: string,
+    zipcode?: string
+  }
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Button, FormControl, Grid, InputLabel, MenuItem, Select } from '@mui/material'
+import { Button, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from '@mui/material'
 import { toast } from 'react-toastify'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -22,6 +22,10 @@ export const Form = ({ customer }: IProps) => {
     name: yup.string().required('Nome obrigatório'),
     phone_number: yup.string().required('Telefone obrigatório'),
     document: yup.string().required('Documento obrigatório'),
+    neighborhood: yup.string().required('Bairro obrigatório'),
+    number: yup.string().required('Número obrigatório'),
+    street: yup.string().required('Logradouro obrigatório'),
+    zipcode: yup.string().required('CEP obrigatório'),
   })
 
   const {
@@ -38,6 +42,13 @@ export const Form = ({ customer }: IProps) => {
       active: customer ? customer.active : 1,
       document: customer ? customer.document : '',
       password: '',
+      city: customer?.address?.city ||'',
+      complement: customer?.address?.complement ||'',
+      neighborhood: customer?.address?.neighborhood ||'',
+      number: customer?.address?.number ||'',
+      state: customer?.address?.state ||'',
+      street: customer?.address?.street ||'',
+      zipcode: customer?.address?.zipcode ||''
     },
   })
 
@@ -101,6 +112,18 @@ export const Form = ({ customer }: IProps) => {
     if (errors && errors.document && errors.document.message) {
       toast.error(errors.document.message)
     }
+    if (errors && errors.neighborhood && errors.neighborhood.message) {
+      toast.error(errors.neighborhood.message)
+    }
+    if (errors && errors.number && errors.number.message) {
+      toast.error(errors.number.message)
+    }
+    if (errors && errors.street && errors.street.message) {
+      toast.error(errors.street.message)
+    }
+    if (errors && errors.zipcode && errors.zipcode.message) {
+      toast.error(errors.zipcode.message)
+    }
   }, [errors])
 
   useEffect(() => {
@@ -109,6 +132,15 @@ export const Form = ({ customer }: IProps) => {
       setValue('name', customer.name)
       setValue('email', customer.email)
       setValue('phone_number', customer.phone_number)
+      setValue('document', customer.document)
+
+      setValue('number', customer?.address?.number || '')
+      setValue('neighborhood', customer?.address?.neighborhood || '')
+      setValue('state', customer?.address?.state || '')
+      setValue('street', customer?.address?.street || '')
+      setValue('zipcode', customer?.address?.zipcode || '')
+      setValue('city', customer?.address?.city || '')
+      setValue('complement', customer?.address?.complement || '')
     }
   }, [setValue, customer])
 
@@ -153,7 +185,7 @@ export const Form = ({ customer }: IProps) => {
                 value={value}
                 required
                 name='document'
-                placeholder='Telefone'
+                placeholder='CPF'
                 className='auth-input'
               >
                 {() => (
@@ -161,8 +193,8 @@ export const Form = ({ customer }: IProps) => {
                     required
                     variant='outlined'
                     name='document'
-                    label='Telefone'
-                    placeholder='Telefone'
+                    label='CPF'
+                    placeholder='CPF'
                     className='auth-input'/>
                 )}
               </InputMask>
@@ -260,6 +292,148 @@ export const Form = ({ customer }: IProps) => {
               )}
             />
           </FormControl>
+        </Grid>
+      </Grid>
+      <Grid container marginBottom={2}>
+        <Typography variant='h5'>
+          Endereço
+        </Typography>
+      </Grid>
+      <Grid container marginBottom={2} spacing={2}>
+        <Grid item xs={12} md={4}>
+          <Controller
+            control={control}
+            name='street'
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                required
+                name='street'
+                label='Logradouro'
+                placeholder='Logradouro'
+                className='auth-input'
+                onChange={onChange}
+                onBlur={onBlur}
+                value={value}
+              />
+            )}
+          />
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Controller
+            control={control}
+            name='number'
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                required
+                name='number'
+                label='Número'
+                placeholder='Número'
+                className='auth-input'
+                onChange={onChange}
+                onBlur={onBlur}
+                value={value}
+              />
+            )}
+          />
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Controller
+            control={control}
+            name='neighborhood'
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                required
+                name='neighborhood'
+                label='Bairro'
+                placeholder='Bairro'
+                className='auth-input'
+                onChange={onChange}
+                onBlur={onBlur}
+                value={value}
+              />
+            )}
+          />
+        </Grid>
+      </Grid>
+      <Grid container marginBottom={2} spacing={2}>
+        <Grid item xs={12} md={3}>
+          <Controller
+            control={control}
+            name='complement'
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                name='complement'
+                label='Complemento'
+                placeholder='Complemento'
+                className='auth-input'
+                onChange={onChange}
+                onBlur={onBlur}
+                value={value}
+              />
+            )}
+          />
+        </Grid>
+        <Grid item xs={12} md={3}>
+          <Controller
+            control={control}
+            name='city'
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                name='city'
+                label='Cidade'
+                placeholder='Cidade'
+                className='auth-input'
+                onChange={onChange}
+                onBlur={onBlur}
+                value={value}
+              />
+            )}
+          />
+        </Grid>
+        <Grid item xs={12} md={3}>
+          <Controller
+            control={control}
+            name='state'
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                name='state'
+                label='Estado'
+                placeholder='Estado'
+                className='auth-input'
+                onChange={onChange}
+                onBlur={onBlur}
+                value={value}
+              />
+            )}
+          />
+        </Grid>
+        <Grid item xs={12} md={3}>
+          <Controller
+            control={control}
+            name='zipcode'
+            render={({ field: { onChange, onBlur, value } }) => (
+              <InputMask
+                mask='99999.999'
+                onChange={onChange}
+                onBlur={onBlur}
+                value={value}
+                required
+                name='zipcode'
+                placeholder='CEP'
+                className='auth-input'
+              >
+                {() => (
+                  <TextInput
+                    required
+                    variant='outlined'
+                    name='zipcode'
+                    label='CEP'
+                    placeholder='CEP'
+                    className='auth-input'/>
+                )}
+              </InputMask>
+            )}
+          />
         </Grid>
       </Grid>
       <Grid container alignSelf='center' justifyContent='center'>
