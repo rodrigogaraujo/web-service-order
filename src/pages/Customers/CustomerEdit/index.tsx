@@ -16,7 +16,7 @@ export const CustomerEdit: React.FC = () => {
   const { isLoading, data, isError, error } = useGetCustomer(id as string)
 
   if (isError) {
-    toast.error(`Ouve um erro, ${error &&
+    toast.error(`Houve um erro, ${error &&
       error.response &&
       error.response.data &&
       error.response.data.error &&

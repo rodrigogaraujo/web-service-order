@@ -52,7 +52,7 @@ export const Users: React.FC = () => {
   const { isLoading, data, isError, error } = useGetUsers()
 
   if (isError) {
-    toast.error(`Ouve um erro, ${error &&
+    toast.error(`Houve um erro, ${error &&
       error.response &&
       error.response.data &&
       error.response.data.error &&

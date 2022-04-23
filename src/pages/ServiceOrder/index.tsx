@@ -101,7 +101,7 @@ export const ServiceOrder: React.FC = () => {
   const { isLoading, data, isError, error } = useGetServiceOrders()
 
   if (isError) {
-    toast.error(`Ouve um erro, ${error &&
+    toast.error(`Houve um erro, ${error &&
       error.response &&
       error.response.data &&
       error.response.data.error &&

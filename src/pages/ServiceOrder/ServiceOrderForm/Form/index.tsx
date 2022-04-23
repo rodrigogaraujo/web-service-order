@@ -109,7 +109,7 @@ export const Form = ({ serviceOrder }: IProps) => {
   const { isLoading: isLoadingCustomers, data: dataCustomers, isError: isErrorCustomers, error: errorCustomers } = useGetCustomers()
 
   if (isError) {
-    toast.error(`Ouve um erro, ${error &&
+    toast.error(`Houve um erro, ${error &&
       error.response &&
       error.response.data &&
       error.response.data.error &&
@@ -119,7 +119,7 @@ export const Form = ({ serviceOrder }: IProps) => {
   }
 
   if (isErrorCustomers) {
-    toast.error(`Ouve um erro, ${errorCustomers &&
+    toast.error(`Houve um erro, ${errorCustomers &&
       errorCustomers.response &&
       errorCustomers.response.data &&
       errorCustomers.response.data.errorCustomers &&
